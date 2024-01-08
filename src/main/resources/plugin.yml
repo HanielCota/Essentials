@@ -1,0 +1,4 @@
+name: Essentials
+version: '${version}'
+main: com.github.hanielcota.essentials.EssentialsPlugin
+api-version: '1.20'
