@@ -2,6 +2,7 @@ package com.github.hanielcota.essentials.usecases.impl;
 
 import com.github.hanielcota.essentials.usecases.TeleportUseCase;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 public class TeleportPlayerUseCase implements TeleportUseCase {
@@ -23,6 +24,16 @@ public class TeleportPlayerUseCase implements TeleportUseCase {
             sender.sendMessage("§aTeleportado para " + target.getName());
 
             target.sendMessage("§aVocê foi teleportado para o " + sender.getName());
+        } catch (Exception e) {
+            Bukkit.getLogger().info("" + e);
+        }
+    }
+
+    @Override
+    public void teleportPlayerToLocation(Player sender, Location location) {
+        try {
+            sender.teleportAsync(location);
+            sender.sendMessage("§aTeleportado para " + location.getX() + ", " + location.getY() + ", " + location.getZ());
         } catch (Exception e) {
             Bukkit.getLogger().info("" + e);
         }

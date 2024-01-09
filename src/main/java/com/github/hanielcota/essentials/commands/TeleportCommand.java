@@ -18,20 +18,29 @@ public class TeleportCommand extends BaseCommand {
     @Default
     @CommandCompletion("@players")
     public void onTeleportCommand(Player sender, String[] args) {
-        if (args.length == 0 || args.length > 2) {
-            sender.sendMessage("§cUso incorreto. Utilize /tp <alvo> <destino>");
+        if (args.length == 0 || args.length > 3) {
+            sender.sendMessage("§cUso incorreto. Utilize /tp <alvo> <destino>|<x> <y> <z>");
             return;
         }
 
-        String targetName = args[0];
-        Player target = Bukkit.getPlayerExact(targetName);
+        if (args.length == 3) {
+            double x = parseCoordinate(args[0]);
+            double y = parseCoordinate(args[1]);
+            double z = parseCoordinate(args[2]);
 
-        if (target == null || !target.isOnline()) {
-            sender.sendMessage("§cJogador " + targetName + " não encontrado ou offline.");
+            teleportController.teleportToLocation(sender, x, y, z);
             return;
         }
 
         if (args.length == 2) {
+            String targetName = args[0];
+            Player target = Bukkit.getPlayerExact(targetName);
+
+            if (target == null || !target.isOnline()) {
+                sender.sendMessage("§cJogador " + targetName + " não encontrado ou offline.");
+                return;
+            }
+
             String destinationName = args[1];
             Player destination = Bukkit.getPlayerExact(destinationName);
 
@@ -44,6 +53,22 @@ public class TeleportCommand extends BaseCommand {
             return;
         }
 
+        String targetName = args[0];
+        Player target = Bukkit.getPlayerExact(targetName);
+
+        if (target == null || !target.isOnline()) {
+            sender.sendMessage("§cJogador " + targetName + " não encontrado ou offline.");
+            return;
+        }
+
         teleportController.teleportToPlayer(sender, target);
+    }
+
+    private double parseCoordinate(String coordinate) {
+        try {
+            return Double.parseDouble(coordinate);
+        } catch (NumberFormatException e) {
+            return 0.0;
+        }
     }
 }

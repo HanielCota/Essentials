@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OraxenHook {
-
     private static FontManager fontManager;
 
     public static String getGlyphChar(String tagName) {
