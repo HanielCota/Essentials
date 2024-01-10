@@ -28,6 +28,14 @@ public final class EssentialsPlugin extends JavaPlugin {
         registerCommand(commandManager, new HealCommand());
         registerCommand(commandManager, new KillCommand());
         registerCommand(commandManager, new ClearChatCommand());
+        registerCommand(commandManager, new NigthCommand());
+        registerCommand(commandManager, new DayCommand());
+        registerCommand(commandManager, new HatCommand());
+        registerCommand(commandManager, new TopCommand());
+        registerCommand(commandManager, new SpeedCommand());
+        registerCommand(commandManager, new LookInventoryCommand());
+        registerCommand(commandManager, new ClearCommand());
+        registerCommand(commandManager, new CompactCommand());
     }
 
     private void registerCommand(PaperCommandManager commandManager, BaseCommand command) {
