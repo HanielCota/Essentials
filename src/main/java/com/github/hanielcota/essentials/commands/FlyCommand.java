@@ -3,44 +3,52 @@ package com.github.hanielcota.essentials.commands;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandCompletion;
+import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Default;
-import com.github.hanielcota.essentials.controller.FlyController;
 import lombok.AllArgsConstructor;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 @CommandAlias("fly")
 @AllArgsConstructor
 public class FlyCommand extends BaseCommand {
 
-    private final FlyController flyController;
-
     @Default
     @CommandCompletion("@players")
+    @CommandPermission("essentials.fly")
     public void onCommand(Player player, String[] args) {
         if (args.length == 0) {
-            flyController.toggleFly(player);
+            if (shouldDenyFlyInGameMode(player)) {
+                player.sendMessage("§cVocê não pode ativar o fly neste modo de jogo.");
+                return;
+            }
+            toggleFlight(player);
             return;
         }
 
-        if (args.length != 1) {
-            player.sendMessage("§cUso incorreto. Utilize /fly [nick]");
-            return;
-        }
-
-        String targetName = args[0];
-        Player target = player.getServer().getPlayerExact(targetName);
-
-        if (target == null || !target.isOnline()) {
-            player.sendMessage("§cJogador " + targetName + " não encontrado ou offline.");
+        Player target = Bukkit.getServer().getPlayerExact(args[0]);
+        if (target == null) {
+            player.sendMessage("§cJogador '" + args[0] + "' não encontrado ou offline.");
             return;
         }
 
         if (target.equals(player)) {
-            player.sendMessage("§cVocê não pode alterar o modo de voo para si mesmo.");
+            player.sendMessage("§cVocê não pode alterar o seu próprio modo de fly.");
             return;
         }
 
-        flyController.toggleFly(player, target);
+        toggleFlight(target);
+        player.sendMessage("§eModo de voo do jogador " + target.getName() + ", foi " + (target.getAllowFlight() ? "ativado!" : "desligado!"));
     }
 
+    private void toggleFlight(Player player) {
+        boolean isFlying = player.getAllowFlight();
+        player.setAllowFlight(!isFlying);
+        player.sendMessage(isFlying ? "§cModo de voo desligado!" : "§aModo de voo ativado!");
+    }
+
+    private boolean shouldDenyFlyInGameMode(Player player) {
+        return player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR;
+    }
 }

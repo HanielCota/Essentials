@@ -2,39 +2,44 @@ package com.github.hanielcota.essentials.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandCompletion;
+import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Default;
-import com.github.hanielcota.essentials.controller.KillController;
-import lombok.AllArgsConstructor;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 @CommandAlias("kill")
-@AllArgsConstructor
 public class KillCommand extends BaseCommand {
 
-    private final KillController killController;
-
     @Default
+    @CommandPermission("essentials.kill")
+    @CommandCompletion("@players")
     public void onCommand(Player player, String[] args) {
+        if (args.length > 1) {
+            player.sendMessage("§cUso incorreto. Utilize /kill <alvo>");
+            return;
+        }
+
         if (args.length == 0) {
-            killController.killPlayer(player);
+            player.setHealth(0.0D);
+            player.sendMessage("§aVocê tirou sua própria vida!");
             return;
         }
 
-        if (args.length == 1) {
+        String targetName = args[0];
+        Player target = Bukkit.getServer().getPlayerExact(targetName);
 
-            String targetName = args[0];
-            Player target = player.getServer().getPlayerExact(targetName);
-
-            if (target == null || !target.isOnline()) {
-                player.sendMessage("§cJogador " + targetName + " não encontrado ou offline.");
-                return;
-            }
-
-            killController.killPlayer(target);
-            player.sendMessage("§aVocê matou " + target.getName() + ".");
+        if (target == null) {
+            player.sendMessage("§cJogador '" + targetName + "' não encontrado ou offline.");
             return;
         }
 
-        player.sendMessage("§cUso correto: /kill <player>");
+        if (player.equals(target)) {
+            player.sendMessage("§cVocê não pode se matar.");
+            return;
+        }
+
+        target.setHealth(0.0D);
+        player.sendMessage("§eVocê tirou a vida de " + target.getName() + "!");
     }
 }

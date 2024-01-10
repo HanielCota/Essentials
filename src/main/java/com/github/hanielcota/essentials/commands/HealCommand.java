@@ -2,37 +2,47 @@ package com.github.hanielcota.essentials.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandCompletion;
+import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Default;
-import com.github.hanielcota.essentials.controller.HealController;
-import lombok.AllArgsConstructor;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 @CommandAlias("heal|curar")
-@AllArgsConstructor
 public class HealCommand extends BaseCommand {
 
-    private final HealController healController;
 
     @Default
+    @CommandPermission("essentials.heal")
+    @CommandCompletion("@players")
     public void onCommand(Player player, String[] args) {
-        if (args.length == 0) {
-            healController.healPlayer(player);
+        if (args.length > 1) {
+            player.sendMessage("§cUso incorreto. Utilize /heal <alvo>");
             return;
         }
 
-        if (args.length == 1) {
-            String targetName = args[0];
-            Player target = player.getServer().getPlayerExact(targetName);
-
-            if (target == null || !target.isOnline()) {
-                player.sendMessage("§cJogador não encontrado ou offline.");
-                return;
-            }
-
-            healController.healPlayer(target);
-            player.sendMessage("§aVocê curou " + target.getName() + ".");
+        if (args.length == 0) {
+            player.setHealth(20.0D);
+            player.sendMessage("§aVocê foi curado.");
+            return;
         }
 
-        player.sendMessage("§cUso correto: /heal <player>");
+        Player target = Bukkit.getPlayerExact(args[0]);
+        String targetName = args[0];
+
+        if (target == null) {
+            player.sendMessage("§cJogador '" + targetName + "' não encontrado ou offline.");
+            return;
+        }
+
+        if (player.equals(target)) {
+            player.sendMessage("§cVocê não pode se curar assim!");
+            return;
+        }
+
+        target.setHealth(20.0D);
+        player.sendMessage("§eVocê curou o jogador " + target.getName() + "§e.");
     }
+
+
 }
