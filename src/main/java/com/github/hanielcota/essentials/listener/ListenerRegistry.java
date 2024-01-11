@@ -1,6 +1,9 @@
 package com.github.hanielcota.essentials.listener;
 
+import com.github.hanielcota.essentials.listener.player.PlayerDeathListener;
 import com.github.hanielcota.essentials.listener.player.PlayerJoinListener;
+import com.github.hanielcota.essentials.listener.player.PlayerQuitListener;
+import com.github.hanielcota.essentials.listener.player.PlayerRespawnListener;
 import com.github.hanielcota.essentials.listener.server.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
@@ -31,7 +34,10 @@ public class ListenerRegistry {
             WeatherListener::new,
             FallDamageListener::new,
             ExplosionsListener::new,
-            PlayerJoinListener::new
+            PlayerJoinListener::new,
+            PlayerQuitListener::new,
+            PlayerDeathListener::new,
+            PlayerRespawnListener::new
     );
 
     public void registerListeners(JavaPlugin plugin) {
