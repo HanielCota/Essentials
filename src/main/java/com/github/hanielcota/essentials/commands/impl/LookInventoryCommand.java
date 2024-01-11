@@ -1,4 +1,4 @@
-package com.github.hanielcota.essentials.commands;
+package com.github.hanielcota.essentials.commands.impl;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
@@ -14,10 +14,10 @@ public class LookInventoryCommand extends BaseCommand {
 
     @Default
     @CommandCompletion("@players")
-    @CommandPermission("essentials.")
+    @CommandPermission("essentials.invsee")
     public void onCommand(Player player, String[] args) {
         if (args.length == 0) {
-            player.sendMessage("§cUtilize /inverse <jogador> para ver o inventário de um jogador.");
+            player.sendMessage("§cUtilize /invsee <jogador> para ver o inventário de um jogador.");
             return;
         }
 
@@ -26,6 +26,11 @@ public class LookInventoryCommand extends BaseCommand {
 
         if (target == null) {
             player.sendMessage("§cJogador '" + targetName + "' não encontrado ou offline.");
+            return;
+        }
+
+        if (player.equals(target)) {
+            player.sendMessage("§cVocê não pode ver seu próprio inventário.");
             return;
         }
 

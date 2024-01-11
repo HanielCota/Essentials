@@ -1,4 +1,4 @@
-package com.github.hanielcota.essentials.commands;
+package com.github.hanielcota.essentials.commands.impl;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;

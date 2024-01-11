@@ -1,4 +1,4 @@
-package com.github.hanielcota.essentials.commands;
+package com.github.hanielcota.essentials.commands.impl;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
@@ -20,14 +20,12 @@ public class TopCommand extends BaseCommand {
             return;
         }
 
-        Location topLocation = new Location(playerLocation.getWorld(),
-                playerLocation.getX(),
-                playerLocation.getY(),
-                playerLocation.getZ());
+        Location topLocation = playerLocation.getWorld().getHighestBlockAt(playerLocation).getLocation();
 
-        topLocation.setY(topLocation.getWorld().getHighestBlockYAt(topLocation) + 1);
+        topLocation.add(0, 1, 0);
 
         player.teleportAsync(topLocation);
         player.sendMessage("§aTeleportado para o topo.");
     }
+
 }

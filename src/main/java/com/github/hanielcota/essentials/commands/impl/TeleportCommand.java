@@ -1,4 +1,4 @@
-package com.github.hanielcota.essentials.commands;
+package com.github.hanielcota.essentials.commands.impl;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
@@ -24,7 +24,7 @@ public class TeleportCommand extends BaseCommand {
         String targetName = args[0];
 
         if (target == null) {
-            sender.sendMessage("§cJogador não encontrado ou offline.");
+            sender.sendMessage("§cJogador '" + targetName + "' não encontrado ou offline.");
             return;
         }
 

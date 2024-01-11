@@ -1,4 +1,4 @@
-package com.github.hanielcota.essentials.commands;
+package com.github.hanielcota.essentials.commands.impl;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
@@ -8,26 +8,27 @@ import co.aikar.commands.annotation.Default;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-@CommandAlias("kill")
-public class KillCommand extends BaseCommand {
+@CommandAlias("heal|curar")
+public class HealCommand extends BaseCommand {
+
 
     @Default
-    @CommandPermission("essentials.kill")
+    @CommandPermission("essentials.heal")
     @CommandCompletion("@players")
     public void onCommand(Player player, String[] args) {
         if (args.length > 1) {
-            player.sendMessage("§cUso incorreto. Utilize /kill <alvo>");
+            player.sendMessage("§cUso incorreto. Utilize /heal <alvo>");
             return;
         }
 
         if (args.length == 0) {
-            player.setHealth(0.0D);
-            player.sendMessage("§aVocê tirou sua própria vida!");
+            player.setHealth(20.0D);
+            player.sendMessage("§aVocê foi curado.");
             return;
         }
 
+        Player target = Bukkit.getPlayerExact(args[0]);
         String targetName = args[0];
-        Player target = Bukkit.getServer().getPlayerExact(targetName);
 
         if (target == null) {
             player.sendMessage("§cJogador '" + targetName + "' não encontrado ou offline.");
@@ -35,11 +36,13 @@ public class KillCommand extends BaseCommand {
         }
 
         if (player.equals(target)) {
-            player.sendMessage("§cVocê não pode se matar.");
+            player.sendMessage("§cVocê não pode se curar assim!");
             return;
         }
 
-        target.setHealth(0.0D);
-        player.sendMessage("§eVocê tirou a vida de " + target.getName() + "!");
+        target.setHealth(20.0D);
+        player.sendMessage("§eVocê curou o jogador " + target.getName() + "§e.");
     }
+
+
 }

@@ -1,4 +1,4 @@
-package com.github.hanielcota.essentials.listener;
+package com.github.hanielcota.essentials.listener.player;
 
 import com.github.hanielcota.essentials.utils.OraxenHook;
 import net.kyori.adventure.text.Component;
@@ -16,7 +16,7 @@ public class PlayerJoinListener implements Listener {
 
         player.sendPlayerListHeaderAndFooter(
                 Component.text("\n\n" + OraxenHook.getGlyphChar("logo") + "\n\n"),
-                Component.text("\n" + " ⠼ §bᴅɪꜱᴄᴏʀᴅ.ᴀɴᴋᴀʀᴇꜱ.ᴄᴏᴍ ⛞ §fʟᴏᴊᴀ.§eᴀɴᴋᴀʀᴇꜱ§f.ᴄᴏᴍ§f ⤠ §aᴊᴏɢᴀᴅᴏʀᴇꜱ ᴏɴʟɪɴᴇ §f"
+                Component.text("\n" + " ┟ §bᴅɪꜱᴄᴏʀᴅ.ᴀɴᴋᴀʀᴇꜱ.ᴄᴏᴍ ⛞ §fʟᴏᴊᴀ.§eᴀɴᴋᴀʀᴇꜱ§f.ᴄᴏᴍ§f ⤠ §aᴊᴏɢᴀᴅᴏʀᴇꜱ ᴏɴʟɪɴᴇ §f"
                         + Bukkit.getOnlinePlayers().size() + "\n"));
 
         if (player.hasPermission("ankares.tags.master")) {
