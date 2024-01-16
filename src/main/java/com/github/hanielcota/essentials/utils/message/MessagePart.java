@@ -1,4 +1,4 @@
-package com.github.hanielcota.essentials.utils;
+package com.github.hanielcota.essentials.utils.message;
 
 import lombok.Getter;
 import net.kyori.adventure.text.Component;

@@ -1,4 +1,4 @@
-package com.github.hanielcota.essentials.utils;
+package com.github.hanielcota.essentials.utils.message;
 
 import net.kyori.adventure.text.event.ClickEvent;
 import org.bukkit.entity.Player;

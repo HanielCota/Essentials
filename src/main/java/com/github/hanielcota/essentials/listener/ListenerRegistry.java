@@ -1,16 +1,14 @@
 package com.github.hanielcota.essentials.listener;
 
-import com.github.hanielcota.essentials.listener.player.PlayerDeathListener;
-import com.github.hanielcota.essentials.listener.player.PlayerJoinListener;
-import com.github.hanielcota.essentials.listener.player.PlayerQuitListener;
-import com.github.hanielcota.essentials.listener.player.PlayerRespawnListener;
+import com.github.hanielcota.essentials.EssentialsPlugin;
+import com.github.hanielcota.essentials.listener.player.*;
 import com.github.hanielcota.essentials.listener.server.*;
+import com.github.hanielcota.essentials.utils.admin.AdminUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import lombok.val;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,12 +33,11 @@ public class ListenerRegistry {
             FallDamageListener::new,
             ExplosionsListener::new,
             PlayerJoinListener::new,
-            PlayerQuitListener::new,
             PlayerDeathListener::new,
-            PlayerRespawnListener::new
-    );
+            JumpPlantationListener::new,
+            PlayerRespawnListener::new);
 
-    public void registerListeners(JavaPlugin plugin) {
+    public void registerListeners(EssentialsPlugin plugin) {
         val pluginManager = Bukkit.getPluginManager();
         List<Listener> listeners = createListeners();
 
@@ -48,6 +45,10 @@ public class ListenerRegistry {
             log.warning("No listeners created. Registration skipped.");
             return;
         }
+
+        pluginManager.registerEvents(new PlayerVanishListener(plugin), plugin);
+        pluginManager.registerEvents(new PlayerQuitListener(plugin), plugin);
+        pluginManager.registerEvents(new AdminListener(plugin), plugin);
 
         listeners.forEach(listener -> pluginManager.registerEvents(listener, plugin));
         log.info("§aSuccessfully registered " + listeners.size() + " listeners!");

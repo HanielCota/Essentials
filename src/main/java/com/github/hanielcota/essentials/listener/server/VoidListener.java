@@ -1,5 +1,6 @@
 package com.github.hanielcota.essentials.listener.server;
 
+import com.github.hanielcota.essentials.utils.player.PlayerUtils;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -8,7 +9,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 public class VoidListener implements Listener {
-
 
     @EventHandler
     public void damageVoid(EntityDamageEvent e) {
@@ -22,7 +22,6 @@ public class VoidListener implements Listener {
         e.setCancelled(true);
         player.setFallDistance(0);
 
+        PlayerUtils.teleportPlayerToSpawn(player);
     }
-
 }
-

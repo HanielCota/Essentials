@@ -1,4 +1,4 @@
-package com.github.hanielcota.essentials.utils;
+package com.github.hanielcota.essentials.utils.oraxen;
 
 import io.th0rgal.oraxen.OraxenPlugin;
 import io.th0rgal.oraxen.font.FontManager;

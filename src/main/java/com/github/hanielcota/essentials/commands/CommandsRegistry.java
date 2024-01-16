@@ -51,6 +51,10 @@ public class CommandsRegistry {
             manager.registerCommand(new GiveCommand());
             manager.registerCommand(new TopCommand());
             manager.registerCommand(new GodCommand());
+            manager.registerCommand(new SpawnCommand());
+            manager.registerCommand(new VanishCommand());
+            manager.registerCommand(new PingCommand());
+            manager.registerCommand(new AdminCommand());
 
             return true;
         } catch (RuntimeException e) {

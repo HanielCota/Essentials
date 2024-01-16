@@ -9,7 +9,8 @@ public class PlantationDamageListener implements Listener {
 
     @EventHandler
     public void onJumpPlantation(EntityChangeBlockEvent event) {
-        if (event.getBlock().getType() != Material.SOUL_SOIL) return;
+        if (event.getBlock().getType() != Material.FARMLAND) return;
         event.setCancelled(true);
     }
+
 }
