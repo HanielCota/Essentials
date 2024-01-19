@@ -17,28 +17,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ListenerRegistry {
 
-    private final List<ListenerFactory> listenerFactories = Arrays.asList(
-            VoidListener::new,
-            VehicleListener::new,
-            SmeltSnowListener::new,
-            NaturalSpawnListener::new,
-            PlantationDamageListener::new,
-            FreezeListener::new,
-            FoodWorldListener::new,
-            FireListener::new,
-            FireEntityListener::new,
-            ExplodeItemListener::new,
-            DecayListener::new,
-            WeatherListener::new,
-            FallDamageListener::new,
-            ExplosionsListener::new,
-            PlayerJoinListener::new,
-            PlayerDeathListener::new,
-            JumpPlantationListener::new,
-            PlayerRespawnListener::new);
-
     public void registerListeners(EssentialsPlugin plugin) {
-        val pluginManager = Bukkit.getPluginManager();
+        registerSpecificListeners(plugin);
         List<Listener> listeners = createListeners();
 
         if (listeners.isEmpty()) {
@@ -46,15 +26,40 @@ public class ListenerRegistry {
             return;
         }
 
-        pluginManager.registerEvents(new PlayerVanishListener(plugin), plugin);
-        pluginManager.registerEvents(new PlayerQuitListener(plugin), plugin);
-        pluginManager.registerEvents(new AdminListener(plugin), plugin);
-
-        listeners.forEach(listener -> pluginManager.registerEvents(listener, plugin));
+        registerGenericListeners(plugin, listeners);
         log.info("§aSuccessfully registered " + listeners.size() + " listeners!");
     }
 
+    private void registerSpecificListeners(EssentialsPlugin plugin) {
+        Bukkit.getPluginManager().registerEvents(new PlayerVanishListener(plugin), plugin);
+        Bukkit.getPluginManager().registerEvents(new PlayerQuitListener(plugin), plugin);
+        Bukkit.getPluginManager().registerEvents(new AdminListener(plugin), plugin);
+    }
+
+    private void registerGenericListeners(EssentialsPlugin plugin, List<Listener> listeners) {
+        listeners.forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, plugin));
+    }
+
     private List<Listener> createListeners() {
-        return listenerFactories.stream().map(ListenerFactory::createListener).toList();
+        return Arrays.asList(
+                new VoidListener(),
+                new VehicleListener(),
+                new SmeltSnowListener(),
+                new NaturalSpawnListener(),
+                new PlantationDamageListener(),
+                new FreezeListener(),
+                new FoodWorldListener(),
+                new FireListener(),
+                new FireEntityListener(),
+                new ExplodeItemListener(),
+                new DecayListener(),
+                new WeatherListener(),
+                new FallDamageListener(),
+                new ExplosionsListener(),
+                new PlayerJoinListener(),
+                new PlayerDeathListener(),
+                new JumpPlantationListener(),
+                new PlayerRespawnListener()
+        );
     }
 }

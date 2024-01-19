@@ -9,9 +9,6 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 @CommandAlias("kick")
 public class KickCommand extends BaseCommand {
 
@@ -41,20 +38,25 @@ public class KickCommand extends BaseCommand {
             return;
         }
 
-        LocalDateTime dateTime = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        String formattedDateTime = dateTime.format(formatter);
-
         String serverName = "§c§lANKARES";
-
-        Component kickReason = Component.text(
-                serverName + "\n\n§cVocê foi expulso do servidor: \n\n" +
-                "§c§lMotivo: §c" + motivo + "\n\n" +
-                "§c§lData e Hora: §c" + formattedDateTime + "\n\n" +
-                "§c§lAutor: §c" + player.getName()
-        );
+        Component kickReason = Component.text(serverName + "\n\n§cVocê foi expulso do servidor. \n\n" + "§c§lMotivo: §c"
+                + motivo + "\n\n" + "§c§lAutor: §c"
+                + player.getName());
 
         target.kick(kickReason);
-        player.sendMessage("", "§cO jogador " + target.getName() + " foi expulso do servidor.", "§cMotivo: " + motivo, "");
+
+       player.sendMessage(
+                "",
+                "§eVocê expulsou o jogador " + target.getName() + " do servidor.",
+                "§eMotivo: " + motivo,
+                "");
+
+        Bukkit.getOnlinePlayers().stream()
+                .filter(onlinePlayer -> player.hasPermission("essentials.kick"))
+                .forEach(onlinePlayer -> onlinePlayer.sendMessage
+                        ("§cO jogador " + target.getName() + " foi expulso do servidor.",
+                        "§cMotivo: " + motivo,
+                        "",
+                        "§cAutor: " + player.getName(), ""));
     }
 }

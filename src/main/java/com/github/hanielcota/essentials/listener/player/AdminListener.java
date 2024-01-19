@@ -25,6 +25,7 @@ public class AdminListener implements Listener {
 
         Player player = event.getPlayer();
         ItemStack itemInHand = player.getInventory().getItemInMainHand();
+
         if (plugin.getAdminUtils().isItem(itemInHand, AdminItemUtils.createJailItem())) {
             plugin.getAdminUtils().applyJailAction(target);
             return;
@@ -46,7 +47,7 @@ public class AdminListener implements Listener {
         final Player player = event.getPlayer();
 
         if (plugin.getAdminUtils().getAdminStatusMap().containsKey(player.getName())) {
-            player.sendMessage("§cVocê não pode colocar blocos no chão enquanto estiver no modo admin.");
+            player.sendMessage("§cNão é possível colocar blocos no chão no modo admin.");
             event.setCancelled(true);
         }
     }
