@@ -32,7 +32,7 @@ dependencies {
     implementation 'com.zaxxer:HikariCP:5.1.0'
 
     //texture-api
-    compileOnly 'io.th0rgal:oraxen:1.168.0'
+    compileOnly 'io.th0rgal:oraxen:1.169.0'
 
     //command-framework for spigot
     implementation "co.aikar:acf-paper:0.5.1-SNAPSHOT"
